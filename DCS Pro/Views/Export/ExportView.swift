@@ -88,6 +88,27 @@ struct ExportView: View {
                     .textFieldStyle(.roundedBorder)
                 }
                 
+                // Chart Style
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Chart Style")
+                        .font(.headline)
+                    
+                    Picker("", selection: Binding(
+                        get: { viewModel.chartStyle },
+                        set: { viewModel.chartStyle = $0 }
+                    )) {
+                        ForEach(PDFExportService.ExportSettings.ChartStyle.allCases) { style in
+                            Text(style.rawValue).tag(style)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    
+                    Text(viewModel.chartStyle.description)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                
                 // Page Size
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Page Size")
@@ -127,6 +148,36 @@ struct ExportView: View {
                         set: { viewModel.includeLegend = $0 }
                     ))
                     .toggleStyle(.checkbox)
+                }
+                
+                // Fabric Count
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Fabric")
+                        .font(.headline)
+                    
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Aida Fabric Count")
+                            .font(.subheadline)
+                        
+                        Picker("", selection: Binding(
+                            get: { viewModel.fabricCount },
+                            set: { viewModel.fabricCount = $0 }
+                        )) {
+                            ForEach(GenerationSettings.FabricCount.allCases, id: \.self) { count in
+                                Text(count.displayName).tag(count)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .labelsHidden()
+                        
+                        HStack {
+                            Image(systemName: "ruler")
+                            Text("Finished size: \(viewModel.finishedSizeText(for: pattern))")
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .padding(.top, 4)
+                    }
                 }
                 
                 // Pattern Grid Options

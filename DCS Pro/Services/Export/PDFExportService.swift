@@ -23,6 +23,24 @@ class PDFExportService {
         var symbolFontSize: CGFloat = 10
         var showGridNumbers: Bool = true
         var patternTitle: String = "Cross-Stitch Pattern"
+        var chartStyle: ChartStyle = .color
+        
+        /// Chart rendering style
+        enum ChartStyle: String, CaseIterable, Identifiable {
+            case color = "Color"
+            case symbolOnly = "Symbol Only"
+            case traditional = "Traditional"
+            
+            var id: String { rawValue }
+            
+            var description: String {
+                switch self {
+                case .color: return "Colored squares with symbols"
+                case .symbolOnly: return "Black & white symbols, same layout"
+                case .traditional: return "Professional style with sidebar legend"
+                }
+            }
+        }
         
         enum PageSize: String, CaseIterable, Identifiable {
             case letter = "US Letter"
@@ -194,6 +212,7 @@ class PDFExportService {
             "Colors: \(pattern.palette.count) DMC threads",
             "",
             "Finished Size (14-count): \(String(format: "%.1f", Double(pattern.width) / 14.0))\" × \(String(format: "%.1f", Double(pattern.height) / 14.0))\"",
+            "Finished Size (16-count): \(String(format: "%.1f", Double(pattern.width) / 16.0))\" × \(String(format: "%.1f", Double(pattern.height) / 16.0))\"",
             "Finished Size (18-count): \(String(format: "%.1f", Double(pattern.width) / 18.0))\" × \(String(format: "%.1f", Double(pattern.height) / 18.0))\""
         ]
         
@@ -520,6 +539,11 @@ class PDFExportService {
         settings: ExportSettings,
         progress: ProgressCallback?
     ) -> [PDFPage] {
+        // Use traditional chart renderer for traditional style
+        if settings.chartStyle == .traditional {
+            return createTraditionalChartPages(pattern: pattern, settings: settings, progress: progress)
+        }
+        
         var pages: [PDFPage] = []
         
         let stitchesPerPage = settings.stitchesPerPage
@@ -640,6 +664,7 @@ class PDFExportService {
         
         // Draw grid cells
         let symbolFont = NSFont(name: "Menlo", size: settings.symbolFontSize) ?? NSFont.monospacedSystemFont(ofSize: settings.symbolFontSize, weight: .medium)
+        let isSymbolOnly = settings.chartStyle == .symbolOnly
         
         for row in startY..<endY {
             for col in startX..<endX {
@@ -649,26 +674,46 @@ class PDFExportService {
                 
                 if let stitch = pattern.stitches[row][col],
                    let entry = symbolLookup[stitch.thread.id] {
-                    // Fill with thread color
-                    let bgColor = NSColor(
-                        red: CGFloat(entry.thread.rgb.r) / 255.0,
-                        green: CGFloat(entry.thread.rgb.g) / 255.0,
-                        blue: CGFloat(entry.thread.rgb.b) / 255.0,
-                        alpha: 1.0
-                    )
-                    bgColor.setFill()
-                    NSBezierPath(rect: cellRect).fill()
                     
-                    // Draw symbol
-                    let symbolAttributes: [NSAttributedString.Key: Any] = [
-                        .font: symbolFont,
-                        .foregroundColor: contrastColor(for: entry.thread.rgb)
-                    ]
-                    let symbol = entry.symbol.character
-                    let symbolSize = symbol.size(withAttributes: symbolAttributes)
-                    let symbolX = cellX + (cellSize - symbolSize.width) / 2
-                    let symbolY = cellY + (cellSize - symbolSize.height) / 2
-                    symbol.draw(at: NSPoint(x: symbolX, y: symbolY), withAttributes: symbolAttributes)
+                    if isSymbolOnly {
+                        // Symbol-only mode: white background, black symbol
+                        NSColor.white.setFill()
+                        NSBezierPath(rect: cellRect).fill()
+                        
+                        let symbolAttributes: [NSAttributedString.Key: Any] = [
+                            .font: symbolFont,
+                            .foregroundColor: NSColor.black
+                        ]
+                        let symbol = entry.symbol.character
+                        let symbolSize = symbol.size(withAttributes: symbolAttributes)
+                        let symbolX = cellX + (cellSize - symbolSize.width) / 2
+                        let symbolY = cellY + (cellSize - symbolSize.height) / 2
+                        symbol.draw(at: NSPoint(x: symbolX, y: symbolY), withAttributes: symbolAttributes)
+                    } else {
+                        // Color mode: colored background with contrasting symbol
+                        let bgColor = NSColor(
+                            red: CGFloat(entry.thread.rgb.r) / 255.0,
+                            green: CGFloat(entry.thread.rgb.g) / 255.0,
+                            blue: CGFloat(entry.thread.rgb.b) / 255.0,
+                            alpha: 1.0
+                        )
+                        bgColor.setFill()
+                        NSBezierPath(rect: cellRect).fill()
+                        
+                        let symbolAttributes: [NSAttributedString.Key: Any] = [
+                            .font: symbolFont,
+                            .foregroundColor: contrastColor(for: entry.thread.rgb)
+                        ]
+                        let symbol = entry.symbol.character
+                        let symbolSize = symbol.size(withAttributes: symbolAttributes)
+                        let symbolX = cellX + (cellSize - symbolSize.width) / 2
+                        let symbolY = cellY + (cellSize - symbolSize.height) / 2
+                        symbol.draw(at: NSPoint(x: symbolX, y: symbolY), withAttributes: symbolAttributes)
+                    }
+                } else if isSymbolOnly {
+                    // Symbol-only mode: fill empty cells with white
+                    NSColor.white.setFill()
+                    NSBezierPath(rect: cellRect).fill()
                 }
                 
                 // Draw cell border
@@ -709,6 +754,290 @@ class PDFExportService {
         let borderPath = NSBezierPath(rect: borderRect)
         borderPath.lineWidth = 2.0
         borderPath.stroke()
+        
+        // Footer
+        drawPageFooter(pageSize: pageSize, printArea: printArea, title: settings.patternTitle)
+        
+        NSGraphicsContext.restoreGraphicsState()
+        
+        if let cgImage = context.makeImage() {
+            let nsImage = NSImage(cgImage: cgImage, size: pageSize)
+            return PDFPage(image: nsImage)
+        }
+        
+        return nil
+    }
+    
+    // MARK: - Traditional Chart Pages
+    
+    /// Creates pattern pages in traditional cross-stitch chart style
+    /// - Smaller cells to fit more stitches per page
+    /// - Sidebar legend on each page
+    /// - Uniform thin grid lines
+    /// - Professional look matching commercial patterns
+    private func createTraditionalChartPages(
+        pattern: Pattern,
+        settings: ExportSettings,
+        progress: ProgressCallback?
+    ) -> [PDFPage] {
+        var pages: [PDFPage] = []
+        
+        // Traditional charts fit more stitches per page (about 100-120 stitches wide)
+        // Use approximately 100 stitches for the grid area (leaving room for legend)
+        let traditionalStitchesPerPage = 100
+        let pagesWide = (pattern.width + traditionalStitchesPerPage - 1) / traditionalStitchesPerPage
+        let pagesHigh = (pattern.height + traditionalStitchesPerPage - 1) / traditionalStitchesPerPage
+        let totalPages = pagesWide * pagesHigh
+        
+        // Build symbol lookup
+        var symbolLookup: [String: PaletteEntry] = [:]
+        for entry in pattern.palette {
+            symbolLookup[entry.thread.id] = entry
+        }
+        
+        var pageCount = 0
+        for pageRow in 0..<pagesHigh {
+            for pageCol in 0..<pagesWide {
+                let startX = pageCol * traditionalStitchesPerPage
+                let startY = pageRow * traditionalStitchesPerPage
+                let endX = min(startX + traditionalStitchesPerPage, pattern.width)
+                let endY = min(startY + traditionalStitchesPerPage, pattern.height)
+                
+                let pageLabel = "\(Character(UnicodeScalar(65 + pageCol)!))\(pageRow + 1)"
+                
+                if let page = createTraditionalChartPage(
+                    pattern: pattern,
+                    startX: startX, startY: startY,
+                    endX: endX, endY: endY,
+                    pageLabel: pageLabel,
+                    pageNumber: pageCount + 1,
+                    totalPages: totalPages,
+                    settings: settings,
+                    symbolLookup: symbolLookup
+                ) {
+                    pages.append(page)
+                }
+                
+                pageCount += 1
+                let progressValue = 0.4 + 0.6 * Double(pageCount) / Double(totalPages)
+                progress?(progressValue, "Creating chart page \(pageCount) of \(totalPages)...")
+            }
+        }
+        
+        return pages
+    }
+    
+    private func createTraditionalChartPage(
+        pattern: Pattern,
+        startX: Int, startY: Int,
+        endX: Int, endY: Int,
+        pageLabel: String,
+        pageNumber: Int,
+        totalPages: Int,
+        settings: ExportSettings,
+        symbolLookup: [String: PaletteEntry]
+    ) -> PDFPage? {
+        let pageSize = settings.pageSize.size
+        let scaledWidth = Int(pageSize.width * renderScale)
+        let scaledHeight = Int(pageSize.height * renderScale)
+        
+        guard let context = CGContext(
+            data: nil,
+            width: scaledWidth,
+            height: scaledHeight,
+            bitsPerComponent: 8,
+            bytesPerRow: 0,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { return nil }
+        
+        context.scaleBy(x: renderScale, y: renderScale)
+        
+        let nsContext = NSGraphicsContext(cgContext: context, flipped: false)
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = nsContext
+        
+        // Fill with white background
+        NSColor.white.setFill()
+        NSBezierPath(rect: NSRect(origin: .zero, size: pageSize)).fill()
+        
+        let printArea = settings.pageSize.printableArea
+        
+        // Layout: Grid on left (about 75% width), Legend on right (about 25% width)
+        let legendWidth: CGFloat = 130
+        let gridAreaWidth = printArea.width - legendWidth - 10  // 10pt gap
+        let gridAreaHeight = printArea.height - 50  // Room for header and footer
+        
+        // Calculate grid dimensions
+        let gridWidth = endX - startX
+        let gridHeight = endY - startY
+        
+        // Cell size - make cells small but readable (about 5-6 points)
+        let cellSize = min(gridAreaWidth / CGFloat(gridWidth), gridAreaHeight / CGFloat(gridHeight), 6.0)
+        
+        // Actual grid size
+        let actualGridWidth = CGFloat(gridWidth) * cellSize
+        let actualGridHeight = CGFloat(gridHeight) * cellSize
+        
+        // Grid origin - center horizontally in grid area
+        let gridOriginX = printArea.origin.x + (gridAreaWidth - actualGridWidth) / 2 + 15  // 15pt for row numbers
+        let gridOriginY = printArea.origin.y + 25 + (gridAreaHeight - actualGridHeight) / 2
+        
+        // Header
+        let headerFont = NSFont.boldSystemFont(ofSize: 10)
+        let headerAttributes: [NSAttributedString.Key: Any] = [
+            .font: headerFont,
+            .foregroundColor: NSColor.black
+        ]
+        
+        let header = "\(settings.patternTitle) - Section \(pageLabel) (Page \(pageNumber) of \(totalPages))"
+        header.draw(at: NSPoint(x: printArea.origin.x, y: pageSize.height - printArea.origin.y - 15), withAttributes: headerAttributes)
+        
+        // Sub-header with stitch range
+        let subHeaderFont = NSFont.systemFont(ofSize: 8)
+        let subHeaderAttributes: [NSAttributedString.Key: Any] = [
+            .font: subHeaderFont,
+            .foregroundColor: NSColor.darkGray
+        ]
+        let subHeader = "Columns \(startX + 1)-\(endX), Rows \(startY + 1)-\(endY)"
+        subHeader.draw(at: NSPoint(x: printArea.origin.x, y: pageSize.height - printArea.origin.y - 28), withAttributes: subHeaderAttributes)
+        
+        // Draw row numbers (every 10, on the left)
+        let numberFont = NSFont.monospacedDigitSystemFont(ofSize: 6, weight: .regular)
+        let numberAttributes: [NSAttributedString.Key: Any] = [
+            .font: numberFont,
+            .foregroundColor: NSColor.black
+        ]
+        
+        for row in stride(from: ((startY / 10) * 10), through: endY, by: 10) {
+            if row >= startY && row <= endY {
+                let y = gridOriginY + CGFloat(endY - row) * cellSize - cellSize / 2
+                let numStr = "\(row)"
+                let numSize = numStr.size(withAttributes: numberAttributes)
+                numStr.draw(at: NSPoint(x: gridOriginX - numSize.width - 3, y: y - numSize.height / 2), withAttributes: numberAttributes)
+            }
+        }
+        
+        // Draw column numbers (every 10, at top)
+        for col in stride(from: ((startX / 10) * 10), through: endX, by: 10) {
+            if col >= startX && col <= endX {
+                let x = gridOriginX + CGFloat(col - startX) * cellSize
+                let numStr = "\(col)"
+                numStr.draw(at: NSPoint(x: x, y: gridOriginY + actualGridHeight + 3), withAttributes: numberAttributes)
+            }
+        }
+        
+        // Draw grid cells with symbols only
+        let symbolFont = NSFont(name: "Menlo", size: cellSize * 0.75) ?? NSFont.monospacedSystemFont(ofSize: cellSize * 0.75, weight: .regular)
+        
+        for row in startY..<endY {
+            for col in startX..<endX {
+                let cellX = gridOriginX + CGFloat(col - startX) * cellSize
+                let cellY = gridOriginY + CGFloat(endY - row - 1) * cellSize
+                let cellRect = NSRect(x: cellX, y: cellY, width: cellSize, height: cellSize)
+                
+                if let stitch = pattern.stitches[row][col],
+                   let entry = symbolLookup[stitch.thread.id] {
+                    // Draw symbol in black
+                    let symbolAttributes: [NSAttributedString.Key: Any] = [
+                        .font: symbolFont,
+                        .foregroundColor: NSColor.black
+                    ]
+                    let symbol = entry.symbol.character
+                    let symbolSize = symbol.size(withAttributes: symbolAttributes)
+                    let symbolX = cellX + (cellSize - symbolSize.width) / 2
+                    let symbolY = cellY + (cellSize - symbolSize.height) / 2
+                    symbol.draw(at: NSPoint(x: symbolX, y: symbolY), withAttributes: symbolAttributes)
+                }
+                
+                // Draw thin cell border
+                NSColor(white: 0.7, alpha: 1.0).setStroke()
+                let cellPath = NSBezierPath(rect: cellRect)
+                cellPath.lineWidth = 0.25
+                cellPath.stroke()
+            }
+        }
+        
+        // Draw bolder lines every 10 stitches
+        NSColor(white: 0.3, alpha: 1.0).setStroke()
+        let boldPath = NSBezierPath()
+        boldPath.lineWidth = 0.75
+        
+        // Vertical bold lines every 10
+        for col in stride(from: ((startX / 10) + 1) * 10, to: endX, by: 10) {
+            let x = gridOriginX + CGFloat(col - startX) * cellSize
+            boldPath.move(to: NSPoint(x: x, y: gridOriginY))
+            boldPath.line(to: NSPoint(x: x, y: gridOriginY + actualGridHeight))
+        }
+        
+        // Horizontal bold lines every 10
+        for row in stride(from: ((startY / 10) + 1) * 10, to: endY, by: 10) {
+            let y = gridOriginY + CGFloat(endY - row) * cellSize
+            boldPath.move(to: NSPoint(x: gridOriginX, y: y))
+            boldPath.line(to: NSPoint(x: gridOriginX + actualGridWidth, y: y))
+        }
+        
+        boldPath.stroke()
+        
+        // Grid border
+        NSColor.black.setStroke()
+        let borderPath = NSBezierPath(rect: NSRect(x: gridOriginX, y: gridOriginY, width: actualGridWidth, height: actualGridHeight))
+        borderPath.lineWidth = 1.0
+        borderPath.stroke()
+        
+        // Draw legend on right side
+        let legendX = printArea.origin.x + gridAreaWidth + 20
+        let legendStartY = pageSize.height - printArea.origin.y - 45
+        
+        // Legend title
+        let legendTitleFont = NSFont.boldSystemFont(ofSize: 8)
+        let legendTitleAttributes: [NSAttributedString.Key: Any] = [
+            .font: legendTitleFont,
+            .foregroundColor: NSColor.black
+        ]
+        "COLOR KEY".draw(at: NSPoint(x: legendX, y: legendStartY), withAttributes: legendTitleAttributes)
+        
+        // Draw legend entries
+        let legendEntryFont = NSFont.systemFont(ofSize: 6)
+        let legendSymbolFont = NSFont(name: "Menlo", size: 7) ?? NSFont.monospacedSystemFont(ofSize: 7, weight: .regular)
+        let rowHeight: CGFloat = 11
+        
+        var legendY = legendStartY - 15
+        for entry in pattern.palette.prefix(50) {  // Limit to 50 colors per page
+            // Symbol box
+            let boxRect = NSRect(x: legendX, y: legendY - 1, width: 10, height: 9)
+            NSColor.white.setFill()
+            NSBezierPath(rect: boxRect).fill()
+            NSColor.black.setStroke()
+            let boxPath = NSBezierPath(rect: boxRect)
+            boxPath.lineWidth = 0.5
+            boxPath.stroke()
+            
+            // Symbol
+            let symbolAttributes: [NSAttributedString.Key: Any] = [
+                .font: legendSymbolFont,
+                .foregroundColor: NSColor.black
+            ]
+            let symbol = entry.symbol.character
+            let symbolSize = symbol.size(withAttributes: symbolAttributes)
+            symbol.draw(at: NSPoint(x: legendX + (10 - symbolSize.width) / 2, y: legendY - 1 + (9 - symbolSize.height) / 2), withAttributes: symbolAttributes)
+            
+            // DMC code and name
+            let entryAttributes: [NSAttributedString.Key: Any] = [
+                .font: legendEntryFont,
+                .foregroundColor: NSColor.black
+            ]
+            let entryText = "\(entry.thread.id) \(entry.thread.name)"
+            let truncated = entryText.count > 18 ? String(entryText.prefix(15)) + "..." : entryText
+            truncated.draw(at: NSPoint(x: legendX + 13, y: legendY), withAttributes: entryAttributes)
+            
+            legendY -= rowHeight
+            
+            // Stop if we run out of space
+            if legendY < printArea.origin.y + 30 {
+                break
+            }
+        }
         
         // Footer
         drawPageFooter(pageSize: pageSize, printArea: printArea, title: settings.patternTitle)

@@ -30,6 +30,9 @@ class GenerationSettingsViewModel {
     /// Whether dithering is enabled
     var ditherEnabled: Bool = false
     
+    /// Fabric count (stitches per inch)
+    var fabricCount: GenerationSettings.FabricCount = .count14
+    
     // MARK: - Source Image Info
     
     /// Source image aspect ratio (width/height)
@@ -45,8 +48,16 @@ class GenerationSettingsViewModel {
             maintainAspectRatio: maintainAspectRatio,
             maxColors: maxColors,
             colorMatchingMethod: colorMatchingMethod,
-            ditherEnabled: ditherEnabled
+            ditherEnabled: ditherEnabled,
+            fabricCount: fabricCount
         )
+    }
+    
+    /// Estimated finished size based on fabric count
+    var finishedSizeText: String {
+        let widthInches = Double(targetWidth) / Double(fabricCount.rawValue)
+        let heightInches = Double(targetHeight) / Double(fabricCount.rawValue)
+        return String(format: "%.1f\" × %.1f\"", widthInches, heightInches)
     }
     
     /// Estimated stitch count
@@ -87,6 +98,7 @@ class GenerationSettingsViewModel {
         self.maxColors = settings.maxColors
         self.colorMatchingMethod = settings.colorMatchingMethod
         self.ditherEnabled = settings.ditherEnabled
+        self.fabricCount = settings.fabricCount
         
         if let image = sourceImage {
             self.sourceAspectRatio = image.size.width / image.size.height
@@ -149,6 +161,7 @@ class GenerationSettingsViewModel {
         maxColors = settings.maxColors
         colorMatchingMethod = settings.colorMatchingMethod
         ditherEnabled = settings.ditherEnabled
+        fabricCount = settings.fabricCount
     }
     
     // MARK: - Private Helpers

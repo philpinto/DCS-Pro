@@ -35,6 +35,12 @@ class ExportViewModel {
     /// Pattern title for the PDF
     var patternTitle: String = "Cross-Stitch Pattern"
     
+    /// Fabric count for finished size calculations
+    var fabricCount: GenerationSettings.FabricCount = .count14
+    
+    /// Chart rendering style (color or symbol-only)
+    var chartStyle: PDFExportService.ExportSettings.ChartStyle = .color
+    
     // MARK: - Export State
     
     /// Whether export is in progress
@@ -68,13 +74,21 @@ class ExportViewModel {
             stitchesPerPage: stitchesPerPage,
             symbolFontSize: 10,
             showGridNumbers: showGridNumbers,
-            patternTitle: patternTitle
+            patternTitle: patternTitle,
+            chartStyle: chartStyle
         )
     }
     
     /// Calculate estimated page count for a pattern
     func estimatedPageCount(for pattern: Pattern) -> Int {
         exportService.calculatePageCount(pattern: pattern, settings: settings)
+    }
+    
+    /// Calculate finished size text for a pattern
+    func finishedSizeText(for pattern: Pattern) -> String {
+        let widthInches = Double(pattern.width) / Double(fabricCount.rawValue)
+        let heightInches = Double(pattern.height) / Double(fabricCount.rawValue)
+        return String(format: "%.1f\" × %.1f\"", widthInches, heightInches)
     }
     
     // MARK: - Actions

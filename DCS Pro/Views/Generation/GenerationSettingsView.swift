@@ -116,6 +116,11 @@ struct GenerationSettingsView: View {
                 
                 Divider()
                 
+                // Fabric
+                fabricSection
+                
+                Divider()
+                
                 // Colors
                 colorsSection
                 
@@ -224,6 +229,43 @@ struct GenerationSettingsView: View {
                 Text(viewModel.sizeCategory)
             }
             .font(.caption)
+            .foregroundStyle(.secondary)
+        }
+    }
+    
+    // MARK: - Fabric Section
+    
+    private var fabricSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Fabric")
+                .font(.headline)
+            
+            // Fabric count picker
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Aida Fabric Count")
+                
+                Picker("", selection: Binding(
+                    get: { viewModel.fabricCount },
+                    set: { viewModel.fabricCount = $0 }
+                )) {
+                    ForEach(GenerationSettings.FabricCount.allCases, id: \.self) { count in
+                        Text(count.displayName).tag(count)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                
+                Text(viewModel.fabricCount.description)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            
+            // Finished size display
+            HStack {
+                Image(systemName: "ruler")
+                Text("Finished size: \(viewModel.finishedSizeText)")
+            }
+            .font(.callout)
             .foregroundStyle(.secondary)
         }
     }

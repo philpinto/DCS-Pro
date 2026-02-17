@@ -8,6 +8,26 @@ struct GenerationSettings: Codable, Equatable {
     var maxColors: Int                  // Maximum colors in palette (5-50)
     var colorMatchingMethod: ColorMatchingMethod
     var ditherEnabled: Bool             // Apply dithering for smoother gradients
+    var fabricCount: FabricCount        // Aida fabric count (stitches per inch)
+    
+    /// Standard Aida fabric counts
+    enum FabricCount: Int, Codable, CaseIterable {
+        case count14 = 14
+        case count16 = 16
+        case count18 = 18
+        
+        var displayName: String {
+            "\(rawValue)-count"
+        }
+        
+        var description: String {
+            switch self {
+            case .count14: return "Large squares, easier to see"
+            case .count16: return "Medium squares, balanced"
+            case .count18: return "Small squares, finer detail"
+            }
+        }
+    }
     
     enum ColorMatchingMethod: String, Codable, CaseIterable {
         case cielab     // CIE76 Delta E (recommended)
@@ -38,7 +58,8 @@ struct GenerationSettings: Codable, Equatable {
         maintainAspectRatio: true,
         maxColors: 40,
         colorMatchingMethod: .cielab,
-        ditherEnabled: false
+        ditherEnabled: false,
+        fabricCount: .count14
     )
     
     /// Optimized settings for portrait photos
@@ -48,7 +69,8 @@ struct GenerationSettings: Codable, Equatable {
         maintainAspectRatio: true,
         maxColors: 45,
         colorMatchingMethod: .cie94,
-        ditherEnabled: false
+        ditherEnabled: false,
+        fabricCount: .count14
     )
     
     /// Settings for smaller projects
@@ -58,6 +80,7 @@ struct GenerationSettings: Codable, Equatable {
         maintainAspectRatio: true,
         maxColors: 25,
         colorMatchingMethod: .cielab,
-        ditherEnabled: false
+        ditherEnabled: false,
+        fabricCount: .count14
     )
 }
