@@ -1,0 +1,101 @@
+{
+  "" : {
+    "const-values" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS Pro-primary.swiftconstvalues",
+    "dependencies" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS Pro-primary.d",
+    "diagnostics" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS Pro-primary.dia",
+    "emit-module-dependencies" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS Pro-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS Pro-primary-emit-module.dia",
+    "pch" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS Pro-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS Pro-primary.swiftdeps"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/App/AppState.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/AppState.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/AppState.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/AppState.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/ContentView.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/ContentView.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/ContentView.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/ContentView.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/DCS_ProApp.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS_ProApp.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS_ProApp.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS_ProApp.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Color/LabColor.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/LabColor.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/LabColor.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/LabColor.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Color/RGBColor.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/RGBColor.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/RGBColor.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/RGBColor.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Color/XYZColor.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/XYZColor.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/XYZColor.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/XYZColor.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Errors/AppErrors.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/AppErrors.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/AppErrors.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/AppErrors.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Pattern/PaletteEntry.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/PaletteEntry.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/PaletteEntry.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/PaletteEntry.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Pattern/Pattern.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/Pattern.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/Pattern.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/Pattern.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Pattern/PatternMetadata.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/PatternMetadata.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/PatternMetadata.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/PatternMetadata.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Pattern/PatternSymbol.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/PatternSymbol.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/PatternSymbol.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/PatternSymbol.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Pattern/Stitch.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/Stitch.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/Stitch.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/Stitch.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Pattern/StitchType.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/StitchType.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/StitchType.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/StitchType.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Project/GenerationSettings.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/GenerationSettings.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/GenerationSettings.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/GenerationSettings.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Project/Project.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/Project.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/Project.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/Project.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Thread/DMCDatabase.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DMCDatabase.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DMCDatabase.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DMCDatabase.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/Models/Thread/DMCThread.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DMCThread.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DMCThread.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DMCThread.o"
+  },
+  "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "index-unit-output-path" : "/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/GeneratedAssetSymbols.o"
+  }
+}

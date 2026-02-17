@@ -1,0 +1,12 @@
+{
+  "/Users/NineZeroSix/Source/DCS Pro/DCS Pro/App/AppState.swift" : {
+    "abi-baseline-json" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS_Pro.abi.json",
+    "const-values" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS Pro-primary.swiftconstvalues",
+    "dependencies" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS Pro-primary.d",
+    "diagnostics" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS Pro-primary.dia",
+    "objc-header" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS_Pro-Swift.h",
+    "swiftdoc" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS_Pro.swiftdoc",
+    "swiftmodule" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS_Pro.swiftmodule",
+    "swiftsourceinfo" : "/Users/NineZeroSix/Source/DCS Pro/build/Build/Intermediates.noindex/DCS Pro.build/Release/DCS Pro.build/Objects-normal/x86_64/DCS_Pro.swiftsourceinfo"
+  }
+}

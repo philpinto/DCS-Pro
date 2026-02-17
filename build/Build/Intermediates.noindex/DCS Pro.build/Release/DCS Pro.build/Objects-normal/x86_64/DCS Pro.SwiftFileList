@@ -1,0 +1,18 @@
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/App/AppState.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Color/LabColor.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Color/RGBColor.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Color/XYZColor.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Errors/AppErrors.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Pattern/PaletteEntry.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Pattern/Pattern.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Pattern/PatternMetadata.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Pattern/PatternSymbol.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Pattern/Stitch.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Pattern/StitchType.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Project/GenerationSettings.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Project/Project.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Thread/DMCDatabase.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/Models/Thread/DMCThread.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/ContentView.swift
+/Users/NineZeroSix/Source/DCS\ Pro/DCS\ Pro/DCS_ProApp.swift
+/Users/NineZeroSix/Source/DCS\ Pro/build/Build/Intermediates.noindex/DCS\ Pro.build/Release/DCS\ Pro.build/DerivedSources/GeneratedAssetSymbols.swift
